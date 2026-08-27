@@ -1,0 +1,15 @@
+{
+  "name": "joshmouch/joshmouch",
+  "description": "Josh Mouch public package coordinate scaffold",
+  "type": "metapackage",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Josh Mouch",
+      "email": "josh@mouch.name"
+    }
+  ],
+  "extra": {
+    "coordinate-status": "pre-release-coordinate-scaffold"
+  }
+}
