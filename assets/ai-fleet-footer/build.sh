@@ -3,13 +3,13 @@
 # Usage: AI_FLEET=<path to a joshmouch/ai-fleet checkout> ./build.sh
 # Reads palettes.tsv (candidate file stem, variant name, banner background, accent, tagline colour) and writes, per row,
 # logo-<name>.png (64 px, rounded-square cut-out), banner-<name>.svg (640 x 64, the logo at 128 px embedded) and
-# side-<name>.svg (128 x 200 panel for the high-visibility card's left column: the logo, then WORDS one per line). Needs ffmpeg.
+# side-<name>.svg (112 x 160 panel for the high-visibility card's left column: the logo, then WORDS one per line). Needs ffmpeg.
 set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
 C=${AI_FLEET:?set AI_FLEET to a joshmouch/ai-fleet checkout}/engine/assets/desktop-accounts/candidates
 M=$C/support/portrait-rounded-square-alpha.png   # the launcher lab's rounded-square mask
 TAG="People and agents, one crew."
-WORDS=(Plan. Build. Prove. Together.)   # the side panel's tagline, one word per line; the last in the accent colour
+WORDS=(Plan. Build. Prove. Together.)   # the side panel's tagline, one word per line; the last is the emphasis
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 while IFS=$'\t' read -r file name bg accent sub; do
   [ -n "$file" ] && [ "${file#\#}" = "$file" ] || continue
@@ -25,14 +25,21 @@ while IFS=$'\t' read -r file name bg accent sub; do
   <rect x="620" y="16" width="4" height="32" rx="2" fill="$accent"/>
 </svg>
 SVG
-  lines=""; y=118
-  for i in "${!WORDS[@]}"; do fill=$sub; [ "$i" -eq $(( ${#WORDS[@]} - 1 )) ] && fill=$accent
-    lines="$lines  <text x=\"64\" y=\"$y\" text-anchor=\"middle\" font-family=\"-apple-system,Segoe UI,Helvetica,Arial,sans-serif\" font-size=\"16\" font-weight=\"600\" fill=\"$fill\">${WORDS[$i]}</text>
-"; y=$(( y + 21 )); done
+  # The leading words are small and muted, left-aligned under the logo; the last word is the one emphasis.
+  lines=""; y=110; last=$(( ${#WORDS[@]} - 1 ))
+  for i in "${!WORDS[@]}"; do
+    if [ "$i" -eq "$last" ]; then y=$(( y + 4 ))
+      lines="$lines  <text x=\"16\" y=\"$y\" font-family=\"-apple-system,Segoe UI,Helvetica,Arial,sans-serif\" font-size=\"15\" font-weight=\"600\" fill=\"$accent\">${WORDS[$i]}</text>
+"
+    else
+      lines="$lines  <text x=\"16\" y=\"$y\" font-family=\"-apple-system,Segoe UI,Helvetica,Arial,sans-serif\" font-size=\"10\" fill=\"$sub\" fill-opacity=\"0.7\">${WORDS[$i]}</text>
+"; y=$(( y + 13 ))
+    fi
+  done
   cat > "$here/side-$name.svg" <<SVG
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="200" viewBox="0 0 128 200" role="img" aria-label="Open Agency and AI Fleet: ${WORDS[*]}">
-  <rect width="128" height="200" rx="10" fill="$bg"/>
-  <image x="24" y="14" width="80" height="80" xlink:href="data:image/png;base64,$B64"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="112" height="160" viewBox="0 0 112 160" role="img" aria-label="Open Agency and AI Fleet: ${WORDS[*]}">
+  <rect width="112" height="160" rx="10" fill="$bg"/>
+  <image x="16" y="12" width="80" height="80" xlink:href="data:image/png;base64,$B64"/>
 $lines</svg>
 SVG
   echo "$name"
