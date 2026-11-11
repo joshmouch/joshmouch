@@ -7,7 +7,8 @@ images from private repositories on another repository's PR, and doesn't render 
 | File | What |
 |---|---|
 | `logo-<name>.png` | 64 px logo, rounded-square cut-out with transparent corners, for the footer card |
-| `banner-<name>.svg` | 640 × 64 banner (logo, "Open Agency AI Fleet", tagline) for the high-visibility footer |
+| `banner-<name>.svg` | 640 × 64 banner (logo, "Open Agency AI Fleet", tagline), kept as an option |
+| `side-<name>.svg` | 128 × 200 panel (logo, then a one-word-per-line tagline) for the high-visibility card's left column |
 | `palettes.tsv` | one row per variant: candidate file stem, variant name, banner background, accent, tagline colour |
 | `build.sh` | regenerates every file above from its source |
 
