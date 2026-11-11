@@ -1,12 +1,13 @@
 # AI Fleet PR-footer assets
 
-Public images for the footer atlas puts on every pull request it opens (`publicity.prFooter` in
+Public images for the footer atlas puts on every pull request it opens (`publicity.footer` in
 `joshmouch/contributions` `atlas/bin/repo-config.json`). They live in this public repository because GitHub shows no
 images from private repositories on another repository's PR, and doesn't render `data:` URIs.
 
 | File | What |
 |---|---|
 | `logo-<name>.png` | 64 px logo, rounded-square cut-out with transparent corners, for the footer card |
+| `tile-<name>.svg` | the standard card's left column: the variant's background colour with the logo at the top. It has no fixed size and fills the `<img>` width and height the footer gives it (atlas sizes it to the card's rows, since GitHub strips cell background colours) |
 | `banner-<name>.svg` | 640 × 64 banner (logo, "Open Agency AI Fleet", tagline), kept as an option |
 | `side-<name>.svg` | 112 × 160 panel (logo, then a small left-aligned one-word-per-line tagline ending on the emphasised "Together.") for the high-visibility card's left column |
 | `palettes.tsv` | one row per variant: candidate file stem, variant name, banner background, accent, tagline colour |

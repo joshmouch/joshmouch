@@ -3,7 +3,9 @@
 # Usage: AI_FLEET=<path to a joshmouch/ai-fleet checkout> ./build.sh
 # Reads palettes.tsv (candidate file stem, variant name, banner background, accent, tagline colour) and writes, per row,
 # logo-<name>.png (64 px, rounded-square cut-out), banner-<name>.svg (640 x 64, the logo at 128 px embedded) and
-# side-<name>.svg (112 x 160 panel for the high-visibility card's left column: the logo, then WORDS one per line). Needs ffmpeg.
+# tile-<name>.svg (the standard card's left column: the background colour with the logo at the top; it has no fixed size,
+# so it fills whatever width and height the footer's <img> gives it) and side-<name>.svg (112 x 160 panel for the
+# high-visibility card's left column: the logo, then WORDS one per line). Needs ffmpeg.
 set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
 C=${AI_FLEET:?set AI_FLEET to a joshmouch/ai-fleet checkout}/engine/assets/desktop-accounts/candidates
@@ -23,6 +25,12 @@ while IFS=$'\t' read -r file name bg accent sub; do
   <text x="72" y="30" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="19" font-weight="600" fill="#EFEDE4">Open Agency AI Fleet</text>
   <text x="72" y="50" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="13" fill="$sub">$TAG</text>
   <rect x="620" y="16" width="4" height="32" rx="2" fill="$accent"/>
+</svg>
+SVG
+  cat > "$here/tile-$name.svg" <<SVG
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" role="img" aria-label="Open Agency and AI Fleet">
+  <rect width="100%" height="100%" rx="8" fill="$bg"/>
+  <image x="50%" y="8" width="48" height="48" transform="translate(-24 0)" xlink:href="data:image/png;base64,$B64"/>
 </svg>
 SVG
   # The leading words are small and muted, left-aligned under the logo; the last word is the one emphasis.
