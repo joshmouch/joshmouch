@@ -20,8 +20,8 @@ The launcher's icon lab (`engine/assets/desktop-accounts/animation-prototypes/`,
 **Launch Icon Viewer**) shows them as rounded squares with transparent corners. `build.sh` produces the same
 cut-out by applying the lab's mask, `candidates/support/portrait-rounded-square-alpha.png`, to each candidate.
 
-Josh removed the octopus operator (08), the mixed agency group (12), the raven (05) and the front-facing wolf (07)
-on 2026-11-11. The rotation is the rows of `palettes.tsv`.
+Josh removed the octopus operator (08), the mixed agency group (12), the raven (05), the front-facing wolf (07)
+and the constellation (16, one figure ringed by others) on 2026-11-11. The rotation is the rows of `palettes.tsv`.
 
 ## Adding or changing a variant
 
